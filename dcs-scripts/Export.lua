@@ -104,7 +104,7 @@ function LuaExportActivityNextEvent(t)
 	local player_id = LoGetPlayerPlaneId()
 	local o = LoGetWorldObjects()
 
-	local url = "http://local.packetdisarray.com/hawgdar-mvp/data"
+	local url = "http://local.packetdisarray.com/hawgdar/data"
 	
 	local post_body = string.format("player_id=%d&full_details=%s", player_id, TableToJankyJSON(o))
 	log_file:write(post_body .. '\n')
