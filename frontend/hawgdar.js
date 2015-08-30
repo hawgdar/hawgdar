@@ -1,3 +1,7 @@
+function radiansToDegrees(rad) {
+    return (rad / Math.PI) * 180;
+}
+
 var marker = null;
 var map = null;
 
@@ -75,6 +79,13 @@ function updateMarker() {
                 all_markers[unit_id]['marker'].setPosition(latLng);
                 all_markers[unit_id]['recent'] = true;
             }
+
+            // Rotate marker according to unit heading
+            var iconName = unit_id == player_id ? 'a-10c' : 'su-27';
+            var iconSize = 30;
+            var iconColor = unit_id == player_id ? iconColors['blue'] : iconColors['red'];
+            var headingDegrees = radiansToDegrees(d[unit_id]['Heading'])
+            all_markers[unit_id]['marker'].setIcon(new Icon(iconName, iconSize, iconColor, headingDegrees));
 
             if (unit_id == player_id) {
                 map.setCenter(latLng);
