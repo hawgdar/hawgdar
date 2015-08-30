@@ -51,7 +51,7 @@ def update_data():
     latest_gather_time = datetime.now()
     print "[DEBUG] Updated latest data: {}".format(latest_data)
 
-@bottle.get('/hawgdar/<filename:re:.*\.(js|css|html|json|png)>')
+@bottle.get('/hawgdar/<filename:re:.*\.(js|css|html|json|png|svg)>')
 def static(filename):
     return bottle.static_file(filename, root='frontend')
 
