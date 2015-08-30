@@ -55,7 +55,8 @@ function categoryIcon(category) {
         case 'ground': 
             return 'circle';
         case 'weapon':
-            return 'agm-65';
+            //return 'agm-65';
+            return 'circle';
         default:
             return 'circle';
     }
@@ -68,6 +69,18 @@ function bestIcon(unitTypeObj) {
     var description = describe(unitTypeObj);
     if (svgpaths.hasOwnProperty(description)) {
         bestIcon = description;
+    }
+
+    // ES6 fuzzier matching (e.g. Maverick variants)
+    for (pathName in svgpaths) {
+        if (pathName.startsWith(description) || description.startsWith(pathName)) {
+            if (svgpaths.hasOwnProperty(description)) {
+                bestIcon = description;
+            } else {
+                bestIcon = pathName;
+            }
+            break;
+        }
     }
 
     return bestIcon;
