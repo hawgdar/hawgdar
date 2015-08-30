@@ -22,9 +22,9 @@ var all_markers = {};
 
 function markerOptions(unit_id, player_id, latLng, map) {
     if (unit_id == player_id) {
-        return { position: latLng, map: map, icon: 'small-map-marker.png' };
+        return { position: latLng, map: map, icon: icons['a-10c']['blue'] };
     } else {
-        return { position: latLng, map: map };
+        return { position: latLng, map: map, icon: icons['su-27']['red'] };
     }
 }
 
