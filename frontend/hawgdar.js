@@ -25,11 +25,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 var all_markers = {};
 
 function markerOptions(unit_id, player_id, latLng, map, type) {
-    if (unit_id == player_id) {
-        return { position: latLng, map: map, icon: icons['a-10c']['blue'], title: type };
-    } else {
-        return { position: latLng, map: map, icon: icons['su-27']['red'], title: type };
-    }
+    return { position: latLng, map: map, icon: new Icon('arrowhead', defaultSize, iconColors['gray'], 0), title: type }
 }
 
 function invalidate(markerObjs) {
@@ -59,7 +55,7 @@ function updateMarker() {
     //var data = getData();
     var url = '/hawgdar/data';
     $.get(url, function(data) {
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
 
         var player_id = data['player_id'];
         var d = data['full_details'];
@@ -82,9 +78,12 @@ function updateMarker() {
             }
 
             // Rotate marker according to unit heading
-            var iconName = unit_id == player_id ? 'a-10c' : 'su-27';
+            //var iconName = unit_id == player_id ? 'a-10c' : 'su-27';
+            //var iconName = describeIcon(d[unit_id]['Type']);
+            var iconName = categoryIcon(unitCategory(d[unit_id]['Type']));
             var iconSize = 30;
-            var iconColor = unit_id == player_id ? iconColors['blue'] : iconColors['red'];
+            //var iconColor = unit_id == player_id ? iconColors['blue'] : iconColors['red'];
+            var iconColor = iconColors['gray'];
             var headingDegrees = radiansToDegrees(d[unit_id]['Heading'])
             all_markers[unit_id]['marker'].setIcon(new Icon(iconName, iconSize, iconColor, headingDegrees));
 

@@ -61,6 +61,13 @@ var aircraft = [
     'KC-135', 'L-39ZA', 'P-51B', 'P-51D', 'TF-51D'
 ];
 
+function describeIcon(unitTypeObj) {
+    // unitTypeObj is like {'level1': 1, 'level2': 1, 'level3': 6, 'level4': 58}
+    //var bestIcon = 'arrowhead';
+    var bestIcon = 'circle';
+    return bestIcon;
+}
+
 function describe(unitTypeObj) {
     // unitTypeObj is like {'level1': 1, 'level2': 1, 'level3': 6, 'level4': 58}
     var bestDescription = '';
@@ -89,4 +96,37 @@ function describe(unitTypeObj) {
     }
 
     return bestDescription;
+}
+
+function unitCategory(unitTypeObj) {
+    var categories = unitTypes[0];
+    var categoryKey = unitTypeObj['level1'].toString();
+    if (categories.hasOwnProperty(categoryKey)) {
+        switch (categories[categoryKey]) {
+            case 'air':
+                return 'air';
+            case 'ground':
+            case 'navy':
+                return 'ground';
+            case 'weapon':
+                return 'weapon';
+            default:
+                return 'generic'
+        }
+    }
+    return 'generic';
+}
+
+function categoryIcon(category) {
+    // Return the proper svgPathName for this category.
+    switch (category) {
+        case 'air':
+            return 'arrowhead';
+        case 'ground': 
+            return 'circle';
+        case 'weapon':
+            return 'agm-65';
+        default:
+            return 'circle';
+    }
 }
