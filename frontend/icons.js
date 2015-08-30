@@ -15,10 +15,8 @@ var Icon = function(svgPathName, size, color, rotation) {
         if (svgpaths[svgPathName].hasOwnProperty('scale')) {
             this.scale *= svgpaths[svgPathName]['scale'];
         }
-        //console.log('Intended size ' + intendedSize + ', larger dim ' + largerDim + ', scale ' + this.scale);
     } else if (svgpaths[svgPathName].hasOwnProperty('scale')) {
         this.scale = svgpaths[svgPathName]['scale'];
-        //console.log('Manually setting scale to ' + this.scale);
     }
 
     this.rotation = rotation;
@@ -65,7 +63,6 @@ function categoryIcon(category) {
 
 function bestIcon(unitTypeObj) {
     // unitTypeObj is like {'level1': 1, 'level2': 1, 'level3': 6, 'level4': 58}
-    //var bestIcon = 'arrowhead';
     var bestIcon = categoryIcon(unitCategory(unitTypeObj));
 
     var description = describe(unitTypeObj);
@@ -74,4 +71,17 @@ function bestIcon(unitTypeObj) {
     }
 
     return bestIcon;
+}
+
+var coalitionColors = {
+    'Allies': iconColors['red'],
+    'Enemies': iconColors['blue'],
+}
+
+function coalitionColor(coalition) {
+    if (coalitionColors.hasOwnProperty(coalition)) {
+        return coalitionColors[coalition];
+    }
+
+    return iconColors['gray'];
 }

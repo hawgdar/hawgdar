@@ -55,8 +55,6 @@ function updateMarker() {
     //var data = getData();
     var url = '/hawgdar/data';
     $.get(url, function(data) {
-        //console.log(JSON.stringify(data));
-
         var player_id = data['player_id'];
         var d = data['full_details'];
 
@@ -77,13 +75,10 @@ function updateMarker() {
                 all_markers[unit_id]['recent'] = true;
             }
 
-            // Rotate marker according to unit heading
-            //var iconName = unit_id == player_id ? 'A-10C' : 'Su-27';
+            // Customize marker according to unit details
             var iconName = bestIcon(d[unit_id]['Type']);
-            //var iconName = categoryIcon(unitCategory(d[unit_id]['Type']));
             var iconSize = 30;
-            //var iconColor = unit_id == player_id ? iconColors['blue'] : iconColors['red'];
-            var iconColor = iconColors['gray'];
+            var iconColor = coalitionColor(d[unit_id]['Coalition']);
             var headingDegrees = radiansToDegrees(d[unit_id]['Heading'])
             all_markers[unit_id]['marker'].setIcon(new Icon(iconName, iconSize, iconColor, headingDegrees));
 
