@@ -39,12 +39,39 @@ var iconColors = {
 
 var defaultSize = 30; // pixels
 var icons = {
-    'a-10c': {
-        'red': new Icon('a-10c', defaultSize, '#dc322f', 0),
-        'blue': new Icon('a-10c', defaultSize, '#268bd2', 0),
+    'A-10C': {
+        'red': new Icon('A-10C', defaultSize, '#dc322f', 0),
+        'blue': new Icon('A-10C', defaultSize, '#268bd2', 0),
     },
-    'su-27': {
-        'red': new Icon('su-27', defaultSize, '#dc322f', 0),
-        'blue': new Icon('su-27', defaultSize, '#268bd2', 0),
+    'Su-27': {
+        'red': new Icon('Su-27', defaultSize, '#dc322f', 0),
+        'blue': new Icon('Su-27', defaultSize, '#268bd2', 0),
     }
+}
+
+function categoryIcon(category) {
+    // Return the proper svgPathName for this category.
+    switch (category) {
+        case 'air':
+            return 'arrowhead';
+        case 'ground': 
+            return 'circle';
+        case 'weapon':
+            return 'agm-65';
+        default:
+            return 'circle';
+    }
+}
+
+function bestIcon(unitTypeObj) {
+    // unitTypeObj is like {'level1': 1, 'level2': 1, 'level3': 6, 'level4': 58}
+    //var bestIcon = 'arrowhead';
+    var bestIcon = categoryIcon(unitCategory(unitTypeObj));
+
+    var description = describe(unitTypeObj);
+    if (svgpaths.hasOwnProperty(description)) {
+        bestIcon = description;
+    }
+
+    return bestIcon;
 }

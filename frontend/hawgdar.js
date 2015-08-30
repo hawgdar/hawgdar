@@ -78,9 +78,9 @@ function updateMarker() {
             }
 
             // Rotate marker according to unit heading
-            //var iconName = unit_id == player_id ? 'a-10c' : 'su-27';
-            //var iconName = describeIcon(d[unit_id]['Type']);
-            var iconName = categoryIcon(unitCategory(d[unit_id]['Type']));
+            //var iconName = unit_id == player_id ? 'A-10C' : 'Su-27';
+            var iconName = bestIcon(d[unit_id]['Type']);
+            //var iconName = categoryIcon(unitCategory(d[unit_id]['Type']));
             var iconSize = 30;
             //var iconColor = unit_id == player_id ? iconColors['blue'] : iconColors['red'];
             var iconColor = iconColors['gray'];
