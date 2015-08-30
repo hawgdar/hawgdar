@@ -24,11 +24,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 var all_markers = {};
 
-function markerOptions(unit_id, player_id, latLng, map) {
+function markerOptions(unit_id, player_id, latLng, map, type) {
     if (unit_id == player_id) {
-        return { position: latLng, map: map, icon: icons['a-10c']['blue'] };
+        return { position: latLng, map: map, icon: icons['a-10c']['blue'], title: type };
     } else {
-        return { position: latLng, map: map, icon: icons['su-27']['red'] };
+        return { position: latLng, map: map, icon: icons['su-27']['red'], title: type };
     }
 }
 
@@ -72,7 +72,8 @@ function updateMarker() {
 
             if (!all_markers.hasOwnProperty(unit_id)) {
                 // New unit: create marker with given properties and add to object
-                var unitMarker = new google.maps.Marker(markerOptions(unit_id, player_id, latLng, map));
+                var unitType = describe(d[unit_id]['Type']);
+                var unitMarker = new google.maps.Marker(markerOptions(unit_id, player_id, latLng, map, unitType));
                 all_markers[unit_id] = {marker: unitMarker, recent: true};
             } else {
                 // Existing unit: update marker with this unit id
