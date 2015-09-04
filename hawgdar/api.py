@@ -11,11 +11,11 @@ latest_data = {}
 latest_gather_time = None
 timeout = timedelta(seconds=5)
 
-@bottle.get('/hawgdar/')
+@bottle.get('/')
 def index():
     return static('index.html')
 
-@bottle.get('/hawgdar/data')
+@bottle.get('/data')
 def report_data():
     global latest_data, latest_gather_time
     if latest_gather_time is None:
@@ -29,7 +29,7 @@ def report_data():
     print "[DEBUG] Reporting latest data: {}; gathered at {}".format(latest_data, latest_gather_time)
     return latest_data
 
-@bottle.post('/hawgdar/data')
+@bottle.post('/data')
 def update_data():
     print
     for item in bottle.request.body:
@@ -51,7 +51,7 @@ def update_data():
     latest_gather_time = datetime.now()
     print "[DEBUG] Updated latest data: {}".format(latest_data)
 
-@bottle.get('/hawgdar/<filename:re:.*\.(js|css|html|json|png|svg)>')
+@bottle.get('/<filename:re:.*\.(js|css|html|json|png|svg)>')
 def static(filename):
     return bottle.static_file(filename, root='frontend')
 
