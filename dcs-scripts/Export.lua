@@ -5,18 +5,24 @@ MainPanel = GetDevice(0)
 -- (yet) figure out how to include it, so I just downloaded it into the same
 -- directory as this file.
 package.path = package.path .. ";C:\\Users\\Bethany\\Saved Games\\DCS\\Scripts\\luasocket\\lua\\?.lua"
-package.cpath = ";C:\\Users\\Bethany\\Saved Games\\DCS\\Scripts\\luasocket\\socket" .. package.cpath
+package.cpath = package.cpath .. ";C:\\Users\\Bethany\\Saved Games\\DCS\\Scripts\\luasocket\\socket"
 
+local https = nil
 local http = nil
+local socket = nil
+local udp = nil
+local session_id = nil
 
 function LuaExportStart()
 	log_file = io.open("C:/Users/Bethany/Saved Games/DCS/Logs/Export.log", "w")
-	log_file:write("Hello from Export.lua\n")	
+	log_file:write("Hello from Export.lua\n")
 	
-	log_file:write(package.path)
-	log_file:write("\n")
+	socket = require("socket")
+	udp = socket.udp()
+	udp:setpeername("127.0.0.1", 8492)
 	
-	http = require("socket.http")
+	session_id = math.random(1000000000)
+	log_file:write(string.format("Session id: %d\n", session_id))
 end
 
 function LuaExportBeforeNextFrame()
@@ -104,11 +110,15 @@ function LuaExportActivityNextEvent(t)
 	local player_id = LoGetPlayerPlaneId()
 	local o = LoGetWorldObjects()
 
-	local url = "http://local.packetdisarray.com/hawgdar/data"
+	local post_url = "https://hawgdar.com/data"
 	
-	local post_body = string.format("player_id=%d&full_details=%s", player_id, TableToJankyJSON(o))
+	local post_body = string.format("t=%d&player_id=%d&full_details=%s", t, player_id, TableToJankyJSON(o))
 	log_file:write(post_body .. '\n')
-	http.request(url, post_body)
+	
+	-- Send data to the relay. To minimize blocking, use UDP (fire-and-forget, as it were).
+	-- Really, if security/authentication was not an issue, you could send post_body as the
+	-- content of a POST request, but using the relay is best for performance and security.
+	udp:send(post_body)
 	
 	tNext = tNext + 1.0
 	return tNext
